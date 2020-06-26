@@ -213,19 +213,19 @@ function sizeHandler() {
         (s_oStage.canvas.height = 2 * e),
         (canvas.style.width = g + "px"),
         (canvas.style.height = e + "px"),
-        (a = Math.min(g / CANVAS_WIDTH, e / CANVAS_HEIGHT)),
+        (a = 2 * Math.min(g / CANVAS_WIDTH, e / CANVAS_HEIGHT)),
         (s_iScaleFactor = 2 * a),
         (s_oStage.scaleX = s_oStage.scaleY = 2 * a))
       : s_bMobile && !1 === isIOS()
       ? ($("#canvas").css("width", g + "px"),
-        $("#canvas").css("height", e + "px"))
+        $("#canvas").css("height", e + "px"),
+        (s_iScaleFactor = 1))
       : ((s_oStage.canvas.width = g),
         (s_oStage.canvas.height = e),
         (s_iScaleFactor = Math.min(g / CANVAS_WIDTH, e / CANVAS_HEIGHT)),
         (s_oStage.scaleX = s_oStage.scaleY = s_iScaleFactor));
-    0 > b
-      ? ($("#canvas").css("top", b + "px"), (s_iCanvasOffsetHeight = b))
-      : ($("#canvas").css("top", "0px"), (s_iCanvasOffsetHeight = 0));
+    0 > b || (b = (a - e) / 2);
+    $("#canvas").css("top", b + "px");
     $("#canvas").css("left", l + "px");
     s_iCanvasResizeWidth = g;
     s_iCanvasResizeHeight = e;
@@ -645,8 +645,8 @@ function CSpriteLibrary() {
 }
 var CANVAS_WIDTH = 1280,
   CANVAS_HEIGHT = 768,
-  EDGEBOARD_X = 90,
-  EDGEBOARD_Y = 95,
+  EDGEBOARD_X = 30,
+  EDGEBOARD_Y = 80,
   FPS = 30,
   FPS_TIME = 1e3 / FPS,
   DISABLE_SOUND_MOBILE = !1,
@@ -3176,6 +3176,7 @@ function CTableController() {
     f = 232;
     h = 1;
     l = s_oSpriteLibrary.getSprite("hit_area_couple_horizontal");
+    console.log("first horizontal");
     for (n = 1; 13 > n; n++)
       (a = new CBetTableButton(
         k,
