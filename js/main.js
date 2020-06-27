@@ -227,6 +227,8 @@ function sizeHandler() {
     0 > b || (b = (a - e) / 2);
     $("#canvas").css("top", b + "px");
     $("#canvas").css("left", l + "px");
+    CANVAS_OFFSET_HEIGHT = b;
+    CANVAS_OFFSET_WIDTH = l;
     s_iCanvasResizeWidth = g;
     s_iCanvasResizeHeight = e;
     s_iCanvasOffsetWidth = l;
@@ -647,6 +649,8 @@ var CANVAS_WIDTH = 1280,
   CANVAS_HEIGHT = 768,
   EDGEBOARD_X = 30,
   EDGEBOARD_Y = 80,
+  CANVAS_OFFSET_HEIGHT,
+  CANVAS_OFFSET_WIDTH,
   FPS = 30,
   FPS_TIME = 1e3 / FPS,
   DISABLE_SOUND_MOBILE = !1,
@@ -692,6 +696,9 @@ var CANVAS_WIDTH = 1280,
   ROW_HISTORY = 19,
   FONT1 = "arialbold",
   FONT2 = "plantagenet_cherokeeregular",
+  FONT_GAME_1 = "arialbold",
+  FONT_GAME_2 = "Digital-7",
+  FONT_GAME_3 = "ariallight",
   ENABLE_FULLSCREEN,
   ENABLE_CHECK_ORIENTATION,
   SHOW_CREDITS;
@@ -775,6 +782,7 @@ function CRouletteSettings() {
     b.bet_2_3_37 = { x: 96, y: 84 };
     b.bet_0_2_37 = { x: 96, y: 124 };
     b.bet_0_1_2_3_37 = { x: 96, y: 232 };
+    b.bet_0_37 = { x: 65, y: 122 };
     a = 128;
     k = 232;
     for (h = f = 1; 13 > h; h++)
@@ -1394,6 +1402,7 @@ function CMain(a) {
       "./sprites/but_fullscreen.png"
     );
     s_oSpriteLibrary.addSprite("logo", "./sprites/logo.png");
+    s_oSpriteLibrary.addSprite("rule_table", "./sprites/1.png");
     s_oSpriteLibrary.addSprite(
       "board_roulette",
       "./sprites/board_roulette.jpg"
@@ -2404,6 +2413,7 @@ function CGame(a) {
     b = NUMBERS_TO_BET;
   };
   this.onRebet = function () {
+    console.log(u.length);
     for (var a = 0; a < u.length; a++)
       !0 === u[a].neighbors
         ? z.rebet(u[a].num_clicked)
@@ -3076,42 +3086,42 @@ function CTableController() {
         0 === h % 3
           ? ((k += WIDTH_CELL_NUMBER + 3), (f = 194))
           : (f -= HEIGHT_CELL_NUMBER + 3);
-    a = new CBetTableButton(
-      97,
-      195,
-      s_oSpriteLibrary.getSprite("hit_area_couple_vertical"),
-      "bet_0_1",
-      d,
-      !1
-    );
-    a.addEventListener(ON_MOUSE_DOWN, this._onBetPress, this);
-    !1 === s_bMobile &&
-      (a.addEventListener(ON_MOUSE_OVER, this._onBetNumberOver, this),
-      a.addEventListener(ON_MOUSE_OUT, this._onBetNumberOut, this));
-    a = new CBetTableButton(
-      97,
-      120,
-      s_oSpriteLibrary.getSprite("hit_area_couple_vertical"),
-      "bet_0_2_37",
-      d,
-      !1
-    );
-    a.addEventListener(ON_MOUSE_DOWN, this._onBetPress, this);
-    !1 === s_bMobile &&
-      (a.addEventListener(ON_MOUSE_OVER, this._onBetNumberOver, this),
-      a.addEventListener(ON_MOUSE_OUT, this._onBetNumberOut, this));
-    a = new CBetTableButton(
-      97,
-      45,
-      s_oSpriteLibrary.getSprite("hit_area_couple_vertical"),
-      "bet_3_37",
-      d,
-      !1
-    );
-    a.addEventListener(ON_MOUSE_DOWN, this._onBetPress, this);
-    !1 === s_bMobile &&
-      (a.addEventListener(ON_MOUSE_OVER, this._onBetNumberOver, this),
-      a.addEventListener(ON_MOUSE_OUT, this._onBetNumberOut, this));
+    // a = new CBetTableButton(
+    //   97,
+    //   195,
+    //   s_oSpriteLibrary.getSprite("hit_area_couple_vertical"),
+    //   "bet_0_1",
+    //   d,
+    //   !1
+    // );
+    // a.addEventListener(ON_MOUSE_DOWN, this._onBetPress, this);
+    // !1 === s_bMobile &&
+    //   (a.addEventListener(ON_MOUSE_OVER, this._onBetNumberOver, this),
+    //   a.addEventListener(ON_MOUSE_OUT, this._onBetNumberOut, this));
+    // a = new CBetTableButton(
+    //   97,
+    //   120,
+    //   s_oSpriteLibrary.getSprite("hit_area_couple_vertical"),
+    //   "bet_0_2_37",
+    //   d,
+    //   !1
+    // );
+    // a.addEventListener(ON_MOUSE_DOWN, this._onBetPress, this);
+    // !1 === s_bMobile &&
+    //   (a.addEventListener(ON_MOUSE_OVER, this._onBetNumberOver, this),
+    //   a.addEventListener(ON_MOUSE_OUT, this._onBetNumberOut, this));
+    // a = new CBetTableButton(
+    //   97,
+    //   45,
+    //   s_oSpriteLibrary.getSprite("hit_area_couple_vertical"),
+    //   "bet_3_37",
+    //   d,
+    //   !1
+    // );
+    // a.addEventListener(ON_MOUSE_DOWN, this._onBetPress, this);
+    // !1 === s_bMobile &&
+    //   (a.addEventListener(ON_MOUSE_OVER, this._onBetNumberOver, this),
+    //   a.addEventListener(ON_MOUSE_OUT, this._onBetNumberOut, this));
     k = 159;
     f = 194;
     for (var n = 1; 34 > n; n++)
@@ -3176,7 +3186,6 @@ function CTableController() {
     f = 232;
     h = 1;
     l = s_oSpriteLibrary.getSprite("hit_area_couple_horizontal");
-    console.log("first horizontal");
     for (n = 1; 13 > n; n++)
       (a = new CBetTableButton(
         k,
@@ -3197,6 +3206,18 @@ function CTableController() {
       232,
       s_oSpriteLibrary.getSprite("hit_area_small"),
       "bet_0_1_2_3_37",
+      d,
+      !1
+    );
+    a.addEventListener(ON_MOUSE_DOWN, this._onBetPress, this);
+    !1 === s_bMobile &&
+      (a.addEventListener(ON_MOUSE_OVER, this._onBetNumberOver, this),
+      a.addEventListener(ON_MOUSE_OUT, this._onBetNumberOut, this));
+    a = new CBetTableButton( // 0 and double 0 splite button.
+      60,
+      119,
+      s_oSpriteLibrary.getSprite("hit_area_couple_horizontal"),
+      "bet_0_37",
       d,
       !1
     );
@@ -3567,19 +3588,19 @@ function CHistoryRow(a, d, g) {
     n.addChild(l);
     k = new createjs.Text("a", "12px " + FONT1, "#fff");
     k.x = e.x + 10;
-    k.y = e.y + 3;
+    k.y = e.y + 4;
     k.visible = !1;
     k.textAlign = "center";
     n.addChild(k);
     f = new createjs.Text("a", "12px " + FONT1, "#fff");
     f.x = b.x + 10;
-    f.y = b.y + 3;
+    f.y = b.y + 4;
     f.visible = !1;
     f.textAlign = "center";
     n.addChild(f);
     h = new createjs.Text("a", "12px " + FONT1, "#fff");
     h.x = l.x + 10;
-    h.y = l.y + 3;
+    h.y = l.y + 4;
     h.visible = !1;
     h.textAlign = "center";
     n.addChild(h);
@@ -3603,7 +3624,7 @@ function CHistoryRow(a, d, g) {
     h.visible = !1;
   };
   this.showGreen = function (a) {
-    f.text = a;
+    f.text = a === 0 ? a : "00";
     e.visible = !1;
     k.visible = !1;
     b.visible = !0;
@@ -5074,59 +5095,68 @@ function CGameOver() {
   this._init();
 }
 function CCreditsPanel() {
-  var a, d, g, e, b, l, k, f;
+  var a, d, b, c, g, f, m, n;
+  this.makeText = function (text, fontSize, color, fontStyle, posX, posY) {
+    let c = new createjs.Text(text, fontSize + fontStyle, color);
+    c.textAlign = "left";
+    c.textBaseline = "alphabetic";
+    c.x = posX;
+    c.y = posY;
+    return c;
+  };
   this._init = function () {
-    f = new createjs.Container();
-    s_oStage.addChild(f);
-    var h = createBitmap(s_oSpriteLibrary.getSprite("bg_menu"));
-    f.addChild(h);
-    b = new createjs.Shape();
-    b.graphics
-      .beginFill("rgba(0,0,0,0.7)")
-      .drawRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    f.addChild(b);
-    h = s_oSpriteLibrary.getSprite("msg_box");
-    d = createBitmap(h);
-    d.x = CANVAS_WIDTH / 2;
-    d.y = CANVAS_HEIGHT / 2;
-    d.regX = h.width / 2;
-    d.regY = h.height / 2;
-    f.addChild(d);
-    l = new createjs.Shape();
-    l.graphics.beginFill("#0f0f0f").drawRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    l.alpha = 0.01;
-    l.on("click", this._onLogoButRelease);
-    f.addChild(l);
-    h = s_oSpriteLibrary.getSprite("but_exit");
-    a = CANVAS_WIDTH / 2 + 234;
-    g = new CGfxButton(a, 254, h, f);
-    g.addEventListener(ON_MOUSE_UP, this.unload, this);
-    e = new createjs.Text(TEXT_CREDITS_DEVELOPED, "26px Arial", "#ffffff");
-    e.x = CANVAS_WIDTH / 2;
-    e.y = 300;
-    e.textAlign = "center";
-    f.addChild(e);
-    h = s_oSpriteLibrary.getSprite("logo_credits");
-    var n = createBitmap(h);
-    n.regX = h.width / 2;
-    n.regY = h.height / 2;
-    n.x = CANVAS_WIDTH / 2;
-    n.y = CANVAS_HEIGHT / 2;
-    f.addChild(n);
-    k = new createjs.Text(TEXT_LINK, "24px Arial", "#ffffff");
-    k.x = CANVAS_WIDTH / 2;
-    k.y = 440;
-    k.textAlign = "center";
-    f.addChild(k);
+    n = new createjs.Container();
+    s_oStage.addChild(n);
+    a = createBitmap(s_oSpriteLibrary.getSprite("bg_menu"));
+    n.addChild(a);
+    u = createBitmap(s_oSpriteLibrary.getSprite("rule_table"));
+    u.x = 800;
+    u.y = 200;
+    n.addChild(u);
+    g = new createjs.Shape();
+    n.addChild(g);
+    var p = s_oSpriteLibrary.getSprite("but_exit");
+    b = new CGfxButton(CANVAS_WIDTH - 60, p.height / 2 + 85, p, n);
+    b.addEventListener(ON_MOUSE_UP, this.unload, this);
+    c = this.makeText("Game Rule", "45px ", "#ff0", FONT_GAME_2, 550, 150);
+    n.addChild(c);
+    text = `A: Straight up 35 : 1
+    bet is placed on a single number
+B: Split  17 : 1
+    bet splite 2 numbers
+C: Street 11 : 1
+    bet covers 3 numbers in a row
+D: Corner 8 : 1
+    bet covers 4 numbers
+E: Basbet 6 : 1
+    bet covers 1, 2, 3 and both zeros
+F: Line 5 : 1
+    bet covers 6 numbers iin two rows
+G: Column 2 : 1
+    bet covers 12 numbers
+H: Dozen 2 : 1
+    bet covers 12 numbers
+I: Low number 1 : 1
+    bet covers numbers between 1 - 18
+J: High number 1 : 1
+    bet covers numbers between 19 - 36
+K: Red / Black 1 : 1
+    bet covers red or black numbers
+L: Odd / Even number 1 : 1
+    bet covers odd or even numbers
+M: Zero split 17 : 1
+    bet covers both zeros`;
+    c = this.makeText(text, "20px ", "#fff", FONT_GAME_3, 200, 160);
+    n.addChild(c);
   };
   this.unload = function () {
-    l.off("click", this._onLogoButRelease);
-    g.unload();
-    g = null;
-    s_oStage.removeChild(f);
+    // g.off("click", m);
+    b.unload();
+    b = null;
+    s_oStage.removeChild(n);
   };
   this._onLogoButRelease = function () {
-    window.open("http://www.codethislab.com/index.php?&l=en");
+    window.open("http://www.codethislab.com/index.php?&l=en", "_blank");
   };
   this._init();
 }
