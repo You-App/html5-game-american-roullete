@@ -5955,7 +5955,7 @@ function CCreditsPanel() {
     text = `A: Straight up 35 : 1
     bet is placed on a single number
 B: Split  17 : 1
-    bet splite 2 numbers
+    bet split 2 numbers
 C: Street 11 : 1
     bet covers 3 numbers in a row
 D: Corner 8 : 1
