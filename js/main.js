@@ -1011,66 +1011,59 @@ function sizeHandler() {
   if ($("#canvas")) {
     var a =
       "safari" === platform.name.toLowerCase()
-      ? getIOSWindowHeight()
-      : getSize("Height");
+        ? getIOSWindowHeight()
+        : getSize("Height");
     var d = getSize("Width");
     _checkOrientation(d, a);
-    s_iScaleFactor = Math.min(a / CANVAS_HEIGHT, d / CANVAS_WIDTH);
-    var g = CANVAS_WIDTH * s_iScaleFactor,
-      e = CANVAS_HEIGHT * s_iScaleFactor;
-    if (e < a) {
-      var b = a - e;
-      e += b;
-      g += (CANVAS_WIDTH / CANVAS_HEIGHT) * b;
+    var b = Math.min(a / CANVAS_HEIGHT, d / CANVAS_WIDTH),
+      c = CANVAS_WIDTH * b;
+    b *= CANVAS_HEIGHT;
+    if (b < a) {
+      var g = a - b;
+      b += g;
+      c += (CANVAS_WIDTH / CANVAS_HEIGHT) * g;
     } else
-      g < d &&
-        ((b = d - g), (g += b), (e += (CANVAS_HEIGHT / CANVAS_WIDTH) * b));
-    b = a / 2 - e / 2;
-    var l = d / 2 - g / 2,
-      k = CANVAS_WIDTH / g;
-    if (l * k < -EDGEBOARD_X || b * k < -EDGEBOARD_Y)
-      (s_iScaleFactor = Math.min(
+      c < d &&
+        ((g = d - c), (c += g), (b += (CANVAS_HEIGHT / CANVAS_WIDTH) * g));
+    g = a / 2 - b / 2;
+    var f = d / 2 - c / 2,
+      m = CANVAS_WIDTH / c;
+    if (f * m < -EDGEBOARD_X || g * m < -EDGEBOARD_Y)
+      (b = Math.min(
         a / (CANVAS_HEIGHT - 2 * EDGEBOARD_Y),
         d / (CANVAS_WIDTH - 2 * EDGEBOARD_X)
       )),
-        (g = CANVAS_WIDTH * s_iScaleFactor),
-        (e = CANVAS_HEIGHT * s_iScaleFactor),
-        (b = (a - e) / 2),
-        (l = (d - g) / 2),
-        (k = CANVAS_WIDTH / g);
-    s_fInverseScaling = k;
-    s_iOffsetX = -1 * l * k;
-    s_iOffsetY = -1 * b * k;
-    0 <= b && (s_iOffsetY = 0);
-    0 <= l && (s_iOffsetX = 0);
+        (c = CANVAS_WIDTH * b),
+        (b *= CANVAS_HEIGHT),
+        (g = (a - b) / 2),
+        (f = (d - c) / 2),
+        (m = CANVAS_WIDTH / c);
+    s_iOffsetX = -1 * f * m;
+    s_iOffsetY = -1 * g * m;
+    0 <= g && (s_iOffsetY = 0);
+    0 <= f && (s_iOffsetX = 0);
     null !== s_oInterface &&
       s_oInterface.refreshButtonPos(s_iOffsetX, s_iOffsetY);
     null !== s_oMenu && s_oMenu.refreshButtonPos(s_iOffsetX, s_iOffsetY);
     s_bIsIphone
       ? ((canvas = document.getElementById("canvas")),
-        (s_oStage.canvas.width = 2 * g),
-        (s_oStage.canvas.height = 2 * e),
-        (canvas.style.width = g + "px"),
-        (canvas.style.height = e + "px"),
-        (a = 2 * Math.min(g / CANVAS_WIDTH, e / CANVAS_HEIGHT)),
-        (s_iScaleFactor = 2 * a),
-        (s_oStage.scaleX = s_oStage.scaleY = 2 * a))
+        (s_oStage.canvas.width = 2 * c),
+        (s_oStage.canvas.height = 2 * b),
+        (canvas.style.width = c + "px"),
+        (canvas.style.height = b + "px"),
+        (d = Math.min(c / CANVAS_WIDTH, b / CANVAS_HEIGHT)),
+        (s_iScaleFactor = 2 * d),
+        (s_oStage.scaleX = s_oStage.scaleY = 2 * d))
       : s_bMobile && !1 === isIOS()
-      ? ($("#canvas").css("width", g + "px"),
-        $("#canvas").css("height", e + "px"),
-        (s_iScaleFactor = 1))
-      : ((s_oStage.canvas.width = g),
-        (s_oStage.canvas.height = e),
-        (s_iScaleFactor = Math.min(g / CANVAS_WIDTH, e / CANVAS_HEIGHT)),
+      ? ($("#canvas").css("width", c + "px"),
+        $("#canvas").css("height", b + "px"))
+      : ((s_oStage.canvas.width = c),
+        (s_oStage.canvas.height = b),
+        (s_iScaleFactor = Math.min(c / CANVAS_WIDTH, b / CANVAS_HEIGHT)),
         (s_oStage.scaleX = s_oStage.scaleY = s_iScaleFactor));
-    0 > b || (b = (a - e) / 2);
-    $("#canvas").css("top", b + "px");
-    $("#canvas").css("left", l + "px");
-    CANVAS_OFFSET_HEIGHT = b;
-    CANVAS_OFFSET_WIDTH = l;
-    s_iCanvasResizeWidth = g;
-    s_iCanvasResizeHeight = e;
-    s_iCanvasOffsetWidth = l;
+    0 > g || (g = (a - b) / 2);
+    $("#canvas").css("top", g + "px");
+    $("#canvas").css("left", f + "px");
     fullscreenHandler();
   }
 }
