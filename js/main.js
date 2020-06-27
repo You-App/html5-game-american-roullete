@@ -1190,7 +1190,7 @@ function CPreloader() {
     var k = createBitmap(s_oSpriteLibrary.getSprite("bg_menu"));
     l.addChild(k);
     e = createBitmap(s_oSpriteLibrary.getSprite("progress_bar"));
-    e.x = CANVAS_WIDTH / 2;
+    e.x = CANVAS_WIDTH / 2 - 50;
     e.y = CANVAS_HEIGHT - 140;
     l.addChild(e);
     a = 476;
