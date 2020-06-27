@@ -1009,7 +1009,8 @@ function getHeightOfIOSToolbars() {
 function sizeHandler() {
   window.scrollTo(0, 1);
   if ($("#canvas")) {
-    var a = navigator.userAgent.match(/(iPad|iPhone|iPod)/g)
+    var a =
+      "safari" === platform.name.toLowerCase()
       ? getIOSWindowHeight()
       : getSize("Height");
     var d = getSize("Width");
