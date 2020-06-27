@@ -1190,7 +1190,7 @@ function CPreloader() {
     var k = createBitmap(s_oSpriteLibrary.getSprite("bg_menu"));
     l.addChild(k);
     e = createBitmap(s_oSpriteLibrary.getSprite("progress_bar"));
-    e.x = 400;
+    e.x = CANVAS_WIDTH / 2;
     e.y = CANVAS_HEIGHT - 140;
     l.addChild(e);
     a = 476;
@@ -1201,7 +1201,7 @@ function CPreloader() {
     l.addChild(b);
     e.mask = b;
     d = new createjs.Text("0%", "30px " + FONT1, "#fff");
-    d.x = 450;
+    d.x = CANVAS_WIDTH / 2;
     d.y = CANVAS_HEIGHT - 140;
     d.textAlign = "center";
     d.textBaseline = "middle";
